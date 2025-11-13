@@ -3,9 +3,16 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title #{tituloPagina} | Bienes Raíces
+        title #{tituloPagina} | Bienes Raices
         link(rel="stylesheet", href="/css/style.css")
-    body.min-h-screen.bg-gray-50
-        main(class='mx-auto container mt-10 px-2')
+        block styles
+    body.min-h-screen.bg-gray-50 
+
+        if headerAdmin
+            include includes/header
+
+        main(class="mx-auto container mt-10 px-2")
             block contenido
+
+        block scripts
         
