@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
-import bcrypt from "bcrypt";
 import db from "../config/db.js";
-import { toDefaultValue } from "sequelize/lib/utils";
 
 const Propiedades = db.define("propiedades", {
   id: {

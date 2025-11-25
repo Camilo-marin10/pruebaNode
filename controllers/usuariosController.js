@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { generarId, generarJWT } from "../helpers/tokens.js";
 import Usuario from "../models/Usuarios.js";
 import { emailRegistro, emailOlvidePassword } from "../helpers/emails.js";
-import { where } from "sequelize";
 
 const formularioLogin = (req, res) => {
   res.render("auth/login", {
@@ -35,43 +34,49 @@ const autenticar = async (req, res) => {
       csrfToken: req.csrfToken(),
     });
   }
+
   const { email, password } = req.body;
+
+  // Comprobar si existe
   const usuario = await Usuario.findOne({
     where: { email },
   });
 
   if (!usuario) {
     return res.render("auth/login", {
-      tituloPagina: "Iniciar sesion",
+      tituloPagina: "Iniciar Sesion",
       csrfToken: req.csrfToken(),
       errores: [{ msg: "El usuario no existe" }],
     });
   }
 
-  //Confirmacion de la cuenta
+  //Comprobar si el usuario esta confirmado (TRUE)
   if (!usuario.confirmado) {
     return res.render("auth/login", {
-      tituloPagina: "Iniciar sesion",
+      tituloPagina: "Iniciar Sesion",
       csrfToken: req.csrfToken(),
       errores: [{ msg: "Tu cuenta no esta confirmada" }],
     });
   }
-  //Comprobar contraseña
+
+  // Comprobar contraseña
   if (!usuario.verificarPassword(password)) {
     return res.render("auth/login", {
-      tituloPagina: "Iniciar sesion",
+      tituloPagina: "Iniciar Sesion",
       csrfToken: req.csrfToken(),
       errores: [{ msg: "Contraseña incorrecta" }],
     });
   }
 
-  //autenticar usuario
+  // Autenticar el Usuario
   const token = generarJWT({ id: usuario.id, nombre: usuario.nombre });
-  console.log(token);
 
+  // Almacenar en una Cookie
   return res
     .cookie("_token", token, {
       httpOnly: true,
+      // secure: true,
+      // sameSite: true
     })
     .redirect("/mis-propiedades");
 };

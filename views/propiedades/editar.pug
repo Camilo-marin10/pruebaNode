@@ -15,7 +15,7 @@ block contenido
                     p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
 
         div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
-            form.space-y-0(method="POST" action="/propiedades/crear")
+            form.space-y-0(method="POST" action=`/propiedades/editar/${propiedad.id}`)
                 input(type="hidden" name="_csrf" value=csrfToken )  
                 div.space-y-5
                     h3.text-lg.leading-6.font-medium.text-gray-900 Información General 
@@ -80,7 +80,7 @@ block contenido
                             input(type="hidden" name="lat" id="lat" value= datos.lat ? datos.lat : '')
                             input(type="hidden" name="lng" id="lng" value= datos.lng ? datos.lng : '')
 
-                    input(class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-bold uppercase cursor-pointer" type="submit" value="Añadir Imagen")
+                    input(class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-bold uppercase cursor-pointer" type="submit" value="Guardar Cambios")
             
 block scripts
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
